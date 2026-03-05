@@ -18,7 +18,7 @@ from datetime import datetime
 from functools import wraps
 from importlib.machinery import ModuleSpec
 from importlib.util import module_from_spec
-from typing import Callable
+from typing import Callable, TypeVar, ParamSpec
 
 from loguru import logger
 
@@ -964,7 +964,8 @@ def register_cpp_operation(target_module: types.ModuleType, func_name: str, func
 
     return operation
 
-
+P = ParamSpec("P")
+R = TypeVar("R")
 def register_python_operation(
     *,
     name,
@@ -974,7 +975,7 @@ def register_python_operation(
     preprocess_golden_function_inputs=None,
     postprocess_golden_function_outputs=None,
     doc=None,
-):
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     python_fully_qualified_name = name
 
     def operation_decorator(function: Callable):

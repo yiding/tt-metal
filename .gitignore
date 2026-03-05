@@ -127,6 +127,7 @@ ttnn/tutorials/DiT/
 
 # tt_lib and _ttnn stubs
 *.pyi
+ttnn/ttnn/_ttnn/
 
 compile_commands.json
 

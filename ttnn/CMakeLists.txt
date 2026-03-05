@@ -870,6 +870,23 @@ if(WITH_PYTHON_BINDINGS)
             COMPONENT
             tt_pybinds
     )
+
+    # Generate nanobind stubs after install.
+    #
+    # Done at this time as ttnn python code will make some tweaks to the native
+    # classes, and we want those to be reflected in the generated stubs.
+    set(Python_EXECUTABLE ${Python3_EXECUTABLE})
+    nanobind_add_stub(
+      ttnn_stub
+      INSTALL_TIME
+      MODULE ttnn._ttnn
+      PYTHON_PATH ${PROJECT_SOURCE_DIR}/ttnn
+      COMPONENT tt_pybinds
+
+      RECURSIVE
+      OUTPUT_PATH ${PROJECT_SOURCE_DIR}/ttnn/ttnn
+    )
+
 endif()
 if(TT_INSTALL)
     install(EXPORT TT-NN NAMESPACE TTNN:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tt-nn COMPONENT ttnn-dev)

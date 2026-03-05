@@ -117,7 +117,7 @@ ttnn.attach_golden_function(
     golden_function=_golden_function,
 )
 
-ttnn.Tensor.__matmul__ = lambda self, *args, **kwargs: ttnn.matmul(self, *args, **kwargs)
+ttnn.Tensor.__matmul__ = ttnn.matmul
 
 
 __all__ = []

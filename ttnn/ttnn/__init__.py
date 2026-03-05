@@ -383,20 +383,20 @@ div_ = ttnn.divide_
 
 
 # TODO: nanobind the overloaded operators below
-ttnn.Tensor.__add__ = lambda self, *args, **kwargs: ttnn.add(self, *args, **kwargs)
-ttnn.Tensor.__radd__ = lambda self, *args, **kwargs: ttnn.add(self, *args, **kwargs)
-ttnn.Tensor.__sub__ = lambda self, *args, **kwargs: ttnn.subtract(self, *args, **kwargs)
-ttnn.Tensor.__mul__ = lambda self, *args, **kwargs: ttnn.multiply(self, *args, **kwargs)
-ttnn.Tensor.__rmul__ = lambda self, *args, **kwargs: ttnn.multiply(self, *args, **kwargs)
-ttnn.Tensor.__truediv__ = lambda self, *args, **kwargs: ttnn.divide(self, *args, **kwargs)
-ttnn.Tensor.__rtruediv__ = lambda self, *args, **kwargs: ttnn.rdiv(self, *args, **kwargs)
-ttnn.Tensor.__eq__ = lambda self, *args, **kwargs: ttnn.eq(self, *args, **kwargs)
-ttnn.Tensor.__ne__ = lambda self, *args, **kwargs: ttnn.ne(self, *args, **kwargs)
-ttnn.Tensor.__gt__ = lambda self, *args, **kwargs: ttnn.gt(self, *args, **kwargs)
-ttnn.Tensor.__ge__ = lambda self, *args, **kwargs: ttnn.ge(self, *args, **kwargs)
-ttnn.Tensor.__lt__ = lambda self, *args, **kwargs: ttnn.lt(self, *args, **kwargs)
-ttnn.Tensor.__le__ = lambda self, *args, **kwargs: ttnn.le(self, *args, **kwargs)
-ttnn.Tensor.__getitem__ = lambda self, *args, **kwargs: ttnn.operations.core.__getitem__(self, *args, **kwargs)
+ttnn.Tensor.__add__ = ttnn.add
+ttnn.Tensor.__radd__ = ttnn.add
+ttnn.Tensor.__sub__ = ttnn.subtract
+ttnn.Tensor.__mul__ =  ttnn.multiply
+ttnn.Tensor.__rmul__ =  ttnn.multiply
+ttnn.Tensor.__truediv__ = ttnn.divide
+ttnn.Tensor.__rtruediv__ = ttnn.rdiv
+ttnn.Tensor.__eq__ = ttnn.eq
+ttnn.Tensor.__ne__ = ttnn.ne
+ttnn.Tensor.__gt__ = ttnn.gt
+ttnn.Tensor.__ge__ = ttnn.ge
+ttnn.Tensor.__lt__ = ttnn.lt
+ttnn.Tensor.__le__ = ttnn.le
+ttnn.Tensor.__getitem__ = ttnn.operations.core.__getitem__
 
 from ttnn.operations.matmul import (
     MatmulMultiCoreReuseProgramConfig,

@@ -8,10 +8,8 @@ import functools
 from typing import List, Dict, Optional, Callable, Tuple, Optional, Callable, Union, List
 
 import ttnn
-
-
-MeshDevice = ttnn._ttnn.multi_device.MeshDevice
-DispatchCoreType = ttnn._ttnn.device.DispatchCoreType
+from ttnn._ttnn.multi_device import MeshDevice
+from ttnn._ttnn.device import DispatchCoreType
 
 
 # ====================================================================

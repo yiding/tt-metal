@@ -51,7 +51,7 @@ void ttnn_device(nb::module_& mod) {
     mod.def(
         "open_device",
         &ttnn::open_mesh_device,
-        nb::sig("def open_device(\\*, device_id: int, l1_small_size: int, trace_region_size: int, "
+        nb::sig("def open_device(*, device_id: int, l1_small_size: int, trace_region_size: int, "
                 "dispatch_core_config: ttnn.device.DispatchCoreConfig, worker_l1_size: int)"),
         nb::kw_only(),
         nb::arg("device_id"),

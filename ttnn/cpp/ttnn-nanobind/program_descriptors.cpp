@@ -593,6 +593,7 @@ void py_module_types(nb::module_& mod) {
                 tt::tt_metal::KernelDescriptor::ConfigDescriptor>(),
             nb::arg("kernel_source"),
             nb::arg("source_type") = nb::cast(tt::tt_metal::KernelDescriptor::SourceType::FILE_PATH),
+            nb::kw_only(),
             nb::arg("core_ranges"),
             nb::arg("compile_time_args") = nb::cast(tt::tt_metal::KernelDescriptor::CompileTimeArgs()),
             nb::arg("named_compile_time_args") = nb::cast(tt::tt_metal::KernelDescriptor::NamedCompileTimeArgs()),
@@ -607,6 +608,8 @@ void py_module_types(nb::module_& mod) {
                 Args:
                     kernel_source: Path to kernel source file or inline kernel source code
                     source_type: Type of source (FILE_PATH or INLINE)
+
+                Keyword Args:
                     core_ranges: Set of core ranges where the kernel will execute
                     compile_time_args: Arguments provided at compile time
                     named_compile_time_args: Named arguments provided at compile time
@@ -686,6 +689,16 @@ void py_module_types(nb::module_& mod) {
         .def(
             nb::init<uint32_t, tt::CoreType, CoreRangeSet, uint32_t>(),
             nb::arg("id"),
+            nb::arg("core_type"),
+            nb::arg("core_ranges"),
+            nb::arg("initial_value"),
+            R"pbdoc(
+                Initialize a SemaphoreDescriptor with id, core type, core ranges, and initial value.
+            )pbdoc")
+        .def(
+            nb::init<uint32_t, tt::CoreType, CoreRangeSet, uint32_t>(),
+            nb::arg("id"),
+            nb::kw_only(),
             nb::arg("core_type") = nb::cast(tt::CoreType::WORKER),
             nb::arg("core_ranges"),
             nb::arg("initial_value"),

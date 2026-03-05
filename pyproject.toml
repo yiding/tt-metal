@@ -79,3 +79,9 @@ skip = "*-musllinux_*"
 # To change: Set to "hardlink" for better disk space usage on local filesystems,
 # or "symlink" for fastest operations (requires same filesystem for cache and venv).
 link-mode = "copy"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pyright>=1.1.408",
+]

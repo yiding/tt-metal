@@ -61,7 +61,7 @@ void py_module(nb::module_& mod) {
     mod.def(
         "wait_for_event",
         nb::overload_cast<std::optional<QueueId>, const MeshEvent&>(&wait_for_mesh_event),
-        nb::arg("cq_id") = nb::none(),
+        nb::arg("cq_id"),
         nb::arg("mesh_event"),
         R"doc(
             Inserts a barrier - makes a CQ wait until an event is recorded.

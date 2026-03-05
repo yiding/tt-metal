@@ -83,7 +83,7 @@ void bind_all_gather_matmul_async(nb::module_& mod, const ccl_operation_t& opera
             },
             nb::arg("input_tensor"),
             nb::arg("weight_tensor"),
-            nb::arg("persistent_output_buffer") = nb::none(),
+            nb::arg("persistent_output_buffer"),
             nb::arg("dim"),
             nb::arg("multi_device_global_semaphore"),
             nb::arg("all_gather_core_grid_offset"),

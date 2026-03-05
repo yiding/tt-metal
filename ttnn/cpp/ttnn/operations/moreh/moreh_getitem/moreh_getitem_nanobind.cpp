@@ -20,7 +20,7 @@ void bind_moreh_getitem_operation(nb::module_& mod) {
         ttnn::moreh_getitem,
         "Moreh Getitem operation",
         ttnn::nanobind_arguments_t{
-            nb::arg("input") = nb::none(),
+            nb::arg("input"),
             nb::arg("index_tensors"),
             nb::arg("index_dims"),
             nb::kw_only(),

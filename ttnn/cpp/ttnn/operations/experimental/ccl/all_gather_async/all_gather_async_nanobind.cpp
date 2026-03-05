@@ -120,7 +120,7 @@ void bind_all_gather_async(nb::module_& mod, const ccl_operation_t& operation, c
                     sub_core_grids);
             },
             nb::arg("input_tensor"),
-            nb::arg("persistent_output_buffer") = nb::none(),
+            nb::arg("persistent_output_buffer"),
             nb::arg("dim"),
             nb::arg("multi_device_global_semaphore"),
             nb::kw_only(),

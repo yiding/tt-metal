@@ -403,10 +403,26 @@ void bind_empty_operation(nb::module_& mod, const creation_operation_t& operatio
             },
             nb::keep_alive<0, 5>(),  // test
             nb::arg("shape"),
-            nb::arg("dtype") = DataType::BFLOAT16,
-            nb::arg("layout") = Layout::ROW_MAJOR,
+            nb::arg("dtype"),
+            nb::arg("layout"),
             nb::arg("device"),
-            nb::arg("memory_config") = ttnn::DRAM_MEMORY_CONFIG});
+            nb::arg("memory_config") = ttnn::DRAM_MEMORY_CONFIG},
+        ttnn::nanobind_overload_t{
+                    [](const creation_operation_t& self,
+                       const ttsl::SmallVector<uint32_t>& shape,
+                       const DataType& dtype,
+                       const Layout& layout,
+                       MeshDevice* device,
+                       const MemoryConfig& memory_config) -> ttnn::Tensor {
+                        return self(ttnn::Shape{shape}, dtype, layout, device, memory_config);
+                    },
+                    nb::keep_alive<0, 5>(),  // test
+                    nb::arg("shape"),
+                    nb::arg("dtype") = DataType::BFLOAT16,
+                    nb::arg("layout") = Layout::ROW_MAJOR,
+                    nb::kw_only(),
+                    nb::arg("device"),
+                    nb::arg("memory_config") = ttnn::DRAM_MEMORY_CONFIG});
 }
 
 template <typename creation_operation_t>
@@ -469,7 +485,7 @@ void bind_empty_like_operation(nb::module_& mod, const creation_operation_t& ope
             nb::kw_only(),
             nb::arg("dtype") = DataType::BFLOAT16,
             nb::arg("layout") = Layout::ROW_MAJOR,
-            nb::arg("device") = nb::none(),
+            nb::arg("device"),
             nb::arg("memory_config") = ttnn::DRAM_MEMORY_CONFIG});
 }
 

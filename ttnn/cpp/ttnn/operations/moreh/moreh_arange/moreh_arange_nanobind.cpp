@@ -19,9 +19,9 @@ void bind_moreh_arange_operation(nb::module_& mod) {
         ttnn::moreh_arange,
         "Moreh Arange Operation",
         ttnn::nanobind_arguments_t{
-            nb::arg("start") = 0,
+            nb::arg("start"),
             nb::arg("end"),
-            nb::arg("step") = 1,
+            nb::arg("step"),
             nb::arg("device"),
             nb::kw_only(),
             nb::arg("output") = nb::none(),

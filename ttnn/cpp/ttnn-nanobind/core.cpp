@@ -15,6 +15,7 @@
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/unique_ptr.h>
+#include <nanobind/stl/variant.h>
 #include <nanobind/stl/vector.h>
 #include <reflect>
 
@@ -24,6 +25,7 @@
 #include <tt-metalium/experimental/lightmetal/lightmetal_api.hpp>
 #include <tt-metalium/mesh_device.hpp>
 #include "tt_stl/caseless_comparison.hpp"
+#include "tt_stl/overloaded.hpp"
 #include "ttnn-nanobind/nanobind_helpers.hpp"
 #include "ttnn/config.hpp"
 #include "ttnn/distributed/types.hpp"
@@ -73,49 +75,42 @@ void py_module(nb::module_& mod) {
 
     mod.def(
         "set_printoptions",
-        [](const std::string& profile, const nb::object& sci_mode, const nb::object& precision) {
+        [](
+          const std::string& profile,
+          const std::optional<std::variant<bool, std::string>>& sci_mode,
+          int precision) {
             ttnn::TensorPrintProfile profile_enum =
                 enchantum::cast<ttnn::TensorPrintProfile>(profile, ttsl::ascii_caseless_comp).value();
 
             ttnn::SciMode sci_mode_enum = ttnn::SciMode::Default;
-            if (!sci_mode.is_none()) {
-                if (nb::isinstance<nb::bool_>(sci_mode)) {
-                    sci_mode_enum = nb::cast<bool>(sci_mode) ? ttnn::SciMode::Enable : ttnn::SciMode::Disable;
-                } else if (nb::isinstance<nb::str>(sci_mode)) {
-                    auto cmp = [](const auto& a, const auto& b) -> bool {
-                        return ttsl::ascii_caseless_comp(std::string_view(a), std::string_view(b));
-                    };
-                    const std::string sci_mode_str = nb::cast<std::string>(sci_mode);
-                    if (cmp(sci_mode_str, "true")) {
-                        sci_mode_enum = ttnn::SciMode::Enable;
-                    } else if (cmp(sci_mode_str, "false")) {
-                        sci_mode_enum = ttnn::SciMode::Disable;
-                    } else if (cmp(sci_mode_str, "none") || cmp(sci_mode_str, "default")) {
-                        sci_mode_enum = ttnn::SciMode::Default;
-                    } else {
-                        throw std::invalid_argument("sci_mode must be None, bool, or str (true, false, default)");
-                    }
-                } else {
-                    throw std::invalid_argument("sci_mode must be None, bool, or str (true, false, default)");
-                }
+            if (sci_mode.has_value()) {
+                std::visit(ttsl::overloaded{
+                  [&sci_mode_enum](const bool& value) {
+                    sci_mode_enum = value ? ttnn::SciMode::Enable : ttnn::SciMode::Disable;
+                  },
+                  [&sci_mode_enum](const std::string& value) {
+                      auto cmp = [](const auto& a, const auto& b) -> bool {
+                          return ttsl::ascii_caseless_comp(std::string_view(a), std::string_view(b));
+                      };
+                      if (cmp(value, "true")) {
+                          sci_mode_enum = ttnn::SciMode::Enable;
+                      } else if (cmp(value, "false")) {
+                          sci_mode_enum = ttnn::SciMode::Disable;
+                      } else if (cmp(value, "none") || cmp(value, "default")) {
+                          sci_mode_enum = ttnn::SciMode::Default;
+                      } else {
+                          throw std::invalid_argument("sci_mode must be None, bool, or str (true, false, default)");
+                      }
+                  }
+                }, sci_mode.value());
             }
 
-            int precision_value = 4;
-            if (!precision.is_none()) {
-                if (nb::isinstance<nb::int_>(precision)) {
-                    precision_value = nb::cast<int>(precision);
-                } else {
-                    throw std::invalid_argument("precision must be None or int");
-                }
-            }
-
-            ttnn::set_printoptions(profile_enum, sci_mode_enum, precision_value);
+            ttnn::set_printoptions(profile_enum, sci_mode_enum, precision);
         },
-        nb::sig("def set_printoptions(\\* , profile: str, sci_mode: Optional[str|bool], precision: Optional[int]"),
         nb::kw_only(),
         nb::arg("profile"),
         nb::arg("sci_mode") = nb::none(),
-        nb::arg("precision") = nb::none(),
+        nb::arg("precision") = 4,
         R"doc(
 
         Set print options for tensor output.

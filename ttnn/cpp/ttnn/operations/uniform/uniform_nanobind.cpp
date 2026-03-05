@@ -57,7 +57,7 @@ void bind_uniform_operation(nb::module_& mod) {
         doc,
         ttnn::nanobind_arguments_t{
             nb::arg("input"),
-            nb::arg("from") = 0,
+            nb::arg("from_") = 0,
             nb::arg("to") = 1,
             nb::arg("seed") = 0,
             nb::kw_only(),

@@ -63,7 +63,7 @@ void bind_reduce_scatter_minimal_async(nb::module_& mod, const ccl_operation_t& 
                     compute_kernel_config);
             },
             nb::arg("input_tensor"),
-            nb::arg("persistent_output_buffers") = nb::none(),
+            nb::arg("persistent_output_buffers"),
             nb::arg("dim"),
             nb::arg("multi_device_global_semaphore"),
             nb::kw_only(),

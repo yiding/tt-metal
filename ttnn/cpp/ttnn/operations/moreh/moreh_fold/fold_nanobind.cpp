@@ -23,7 +23,7 @@ void bind_moreh_fold_operation(nb::module_& mod) {
         "Moreh Fold Operation",
         ttnn::nanobind_arguments_t{
             nb::arg("input"),
-            nb::arg("output") = nb::none(),
+            nb::arg("output"),
             nb::arg("output_size"),
             nb::arg("kernel_size"),
             nb::arg("dilation") = std::vector<uint32_t>{1, 1},

@@ -83,5 +83,6 @@ link-mode = "copy"
 [dependency-groups]
 dev = [
     "mypy>=1.19.1",
+    "nanobind>=2.12.0",
     "pyright>=1.1.408",
 ]

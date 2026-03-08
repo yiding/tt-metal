@@ -9,10 +9,14 @@ import os
 import pathlib
 import re
 from types import ModuleType
+from typing import TYPE_CHECKING
 
 from loguru import logger
 
 import ttnn._ttnn
+
+if TYPE_CHECKING:
+    from ._dynamic import *
 
 
 Config = ttnn._ttnn.core.Config
